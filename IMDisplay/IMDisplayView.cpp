@@ -245,8 +245,8 @@ void CIMDisplayView::OnResize()
 
     CResizeDialog   dlg;
 
-    dlg.Width( pDoc->GetImage().columns() );
-    dlg.Height( pDoc->GetImage().rows() );
+    dlg.Width( (int) pDoc->GetImage().columns() );
+    dlg.Height( (int) pDoc->GetImage().rows() );
 
     if ( dlg.DoModal() == IDOK ) {
 	Geometry	newGeo( dlg.Width(), dlg.Height() );
@@ -512,7 +512,7 @@ void CIMDisplayView::OnEditSelectAll()
     CIMDisplayDoc* pDoc = GetDocument();
     ASSERT_VALID(pDoc);
 
-    m_tracker.m_rect = CRect(0,0,pDoc->GetImage().columns(), pDoc->GetImage().rows());
+    m_tracker.m_rect = CRect(0,0,(int) pDoc->GetImage().columns(), (int) pDoc->GetImage().rows());
     UpdateTheView( false );
 }
 
@@ -629,8 +629,8 @@ void CIMDisplayView::SetViewSize()
     CIMDisplayDoc* pDoc = GetDocument();
     ASSERT_VALID(pDoc);
     if ( pDoc->GetImage().isValid() ) {
-	sizeTotal.cx = pDoc->GetImage().columns();
-	sizeTotal.cy = pDoc->GetImage().rows();
+	sizeTotal.cx = (int) pDoc->GetImage().columns();
+	sizeTotal.cy = (int) pDoc->GetImage().rows();
     } else {
 	sizeTotal.cx = sizeTotal.cy = 100;
     }
@@ -802,8 +802,8 @@ void CIMDisplayView::DoDisplayImage( Image &inImage, CDC* pDC )
         //
         BITMAPINFOHEADER bmi;
         bmi.biSize = sizeof(BITMAPINFOHEADER);	// Size of structure
-        bmi.biWidth = inImage.columns();	// Bitmaps width in pixels
-        bmi.biHeight = (-1)*inImage.rows();	// Bitmaps height n pixels
+        bmi.biWidth = (LONG) inImage.columns();	// Bitmaps width in pixels
+        bmi.biHeight = (-1)*(LONG) inImage.rows();	// Bitmaps height n pixels
         bmi.biPlanes = 1;				// Number of planes in the image
         bmi.biBitCount = 32;			// The number of bits per pixel
         bmi.biCompression = BI_RGB;		// The type of compression used
@@ -853,8 +853,8 @@ void CIMDisplayView::DoDisplayImage( Image &inImage, CDC* pDC )
         // Extract the pixels from Magick++ image object and convert to a DIB section
         //
 
-        const unsigned int columns = image.columns();
-        const unsigned int rows = image.rows();
+        const unsigned int columns = (unsigned int) image.columns();
+        const unsigned int rows = (unsigned int) image.rows();
 
         RGBQUAD *pDestPixel = prgbaDIB;
 
@@ -894,7 +894,7 @@ void CIMDisplayView::DoDisplayImage( Image &inImage, CDC* pDC )
         DeleteObject( hBitmap );
       }
 
-      pDC->BitBlt( 0, 0, inImage.columns(), inImage.rows(), mOffscreenDC, 0, 0, SRCCOPY );
+      pDC->BitBlt( 0, 0, (unsigned int) inImage.columns(), (unsigned int) inImage.rows(), mOffscreenDC, 0, 0, SRCCOPY );
       mViewDirty = false; // not any more!
 
       // draw the marching ants, if any
