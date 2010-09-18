@@ -18,6 +18,7 @@
 #define IDR_IMSVGTYPE                   136
 #define IDR_IMEPSTYPE                   137
 #define IDR_IMGIFTYPE                   138
+#define IDR_IMIMAGETYPE                 139
 #define IDC_WIDTH                       1001
 #define IDC_HEIGHT                      1002
 #define IDC_PERCENT                     1003
@@ -26,6 +27,7 @@
 #define IDC_YSHEAR                      1006
 #define IDC_HPIXELS                     1007
 #define IDC_VPIXELS                     1008
+#define IDC_STATIC_VERSION              1009
 #define IDM_HALFSIZE                    32771
 #define IDM_ORIGINALSIZE                32772
 #define IDM_DOUBLESIZE                  32773
@@ -47,9 +49,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        137
+#define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         32786
-#define _APS_NEXT_CONTROL_VALUE         1009
+#define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

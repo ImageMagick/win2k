@@ -69,12 +69,12 @@ BOOL CIMDisplayApp::InitInstance()
 
 	CMultiDocTemplate* pDocTemplate;
 
-        // JPEG (default)
-	pDocTemplate = new CMultiDocTemplate(
-		IDR_IMJPEGTYPE,
-		RUNTIME_CLASS(CIMDisplayDoc),
-		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-		RUNTIME_CLASS(CIMDisplayView));
+        //TH all image types, default
+        pDocTemplate = new CMultiDocTemplate(
+	        IDR_IMIMAGETYPE,
+	        RUNTIME_CLASS(CIMDisplayDoc),
+	        RUNTIME_CLASS(CChildFrame), // custom MDI child frame
+	        RUNTIME_CLASS(CIMDisplayView));
 	AddDocTemplate(pDocTemplate);
 
         // BMP
@@ -221,6 +221,8 @@ protected:
 		// No message handlers
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
@@ -235,6 +237,18 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CAboutDlg)
 	//}}AFX_DATA_MAP
 }
+
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	// TODO:  Add extra initialization here
+	SetDlgItemText (IDC_STATIC_VERSION, CString("Version: ") + MagickVersion); //TH
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
+}
+
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
@@ -251,4 +265,3 @@ void CIMDisplayApp::OnAppAbout()
 
 /////////////////////////////////////////////////////////////////////////////
 // CIMDisplayApp message handlers
-
