@@ -4,7 +4,7 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
-#define IDR_IMDISPTYPE                  129
+#define IDR_IMDISPTYPE                  127 //TH was 129 before; this is the menu; must be same value as the first entry in new CMultiDocTemplate() call (now IDR_IMIMAGETYPE)
 #define IDR_IMJPEGTYPE                  129
 #define IDD_DIALOG_RESIZE               130
 #define IDR_IMPNGTYPE                   131
@@ -18,7 +18,7 @@
 #define IDR_IMSVGTYPE                   136
 #define IDR_IMEPSTYPE                   137
 #define IDR_IMGIFTYPE                   138
-#define IDR_IMIMAGETYPE                 139
+#define IDR_IMIMAGETYPE                 127
 #define IDC_WIDTH                       1001
 #define IDC_HEIGHT                      1002
 #define IDC_PERCENT                     1003
