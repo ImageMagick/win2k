@@ -40,7 +40,6 @@ END
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
-    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
     "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
     "\r\n"
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
@@ -309,7 +308,7 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "CompanyName", "ImageMagick Studio"
+            VALUE "CompanyName", "ImageMagick Studio LLC"
             VALUE "FileDescription", "IMDisplay MFC Application"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "IMDisplay"
