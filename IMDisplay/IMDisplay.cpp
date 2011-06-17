@@ -167,7 +167,7 @@ BOOL CIMDisplayApp::InitInstance()
 	//while ( *ps != '\\' )	{ *ps = 0; ps--; }	// shrink it!
         //MagickCore::InitializeMagick( exePath );
 
-        MagickCore::InitializeMagick( NULL );
+        MagickCore::MagickCoreGenesis( NULL, MagickFalse );
 
 	// we do this to init the coder list, but will use it
 	// more seriously in the future when we actually build up
