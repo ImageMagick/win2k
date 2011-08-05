@@ -564,7 +564,7 @@ void CIMDisplayView::OnEditCopy()
     if (theBitsH == NULL)
 	 DoDisplayError( "OnEditCopy", GetLastError() );
     else {
-	PixelPacket *pPixels = pDoc->GetImage().getPixels(m_tracker.m_rect.left,
+	Quantum *pPixels = pDoc->GetImage().getPixels(m_tracker.m_rect.left,
 							   m_tracker.m_rect.top,
 							   m_tracker.m_rect.Width(),
 							   m_tracker.m_rect.Height());
@@ -576,9 +576,9 @@ void CIMDisplayView::OnEditCopy()
 
 	for( unsigned long nPixelCount = nPixels; nPixelCount ; nPixelCount-- )
 	{
-		pDestPixel->rgbRed	    = ScaleQuantumToChar(pPixels->red);
-		pDestPixel->rgbGreen    = ScaleQuantumToChar(pPixels->green);
-		pDestPixel->rgbBlue	    = ScaleQuantumToChar(pPixels->blue);
+		pDestPixel->rgbRed	    = ScaleQuantumToChar(pPixels[0]);
+		pDestPixel->rgbGreen    = ScaleQuantumToChar(pPixels[1]);
+		pDestPixel->rgbBlue	    = ScaleQuantumToChar(pPixels[2]);
 	    pDestPixel->rgbReserved = 0;
 	    ++pDestPixel;
 	    ++pPixels;
