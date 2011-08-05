@@ -17,13 +17,13 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#if (QuantumDepth == 8)
+#if (MAGICKCORE_QUANTUM_DEPTH == 8)
 #define ScaleQuantumToChar(quantum)  ((unsigned char) (quantum))
-#elif (QuantumDepth == 16)
+#elif (MAGICKCORE_QUANTUM_DEPTH == 16)
 #define ScaleQuantumToChar(quantum)  ((unsigned char) ((quantum)/257))
-#elif (QuantumDepth == 32)
+#elif (MAGICKCORE_QUANTUM_DEPTH == 32)
 #define ScaleQuantumToChar(quantum)  ((unsigned char) ((quantum)/16843009UL))
-#elif (QuantumDepth == 64)
+#elif (MAGICKCORE_QUANTUM_DEPTH == 64)
 #define ScaleQuantumToChar(quantum) \
   ((unsigned char) ((quantum)/71777214294589695))
 #endif
@@ -860,24 +860,17 @@ void CIMDisplayView::DoDisplayImage( Image &inImage, CDC* pDC )
 
         for( unsigned int row = 0 ; row < rows ; row++ )
           {
-            const PixelPacket *pPixels = image.getConstPixels(0,row,columns,1);
-#if QuantumDepth == 8
-            // Form of PixelPacket is identical to RGBQUAD when QuantumDepth==8
-            memcpy((void*)pDestPixel,(const void*)pPixels,sizeof(PixelPacket)*columns);
-            pDestPixel += columns;
-
-#else	    // 16 or 32 bit Quantum
+            const Quantum *pPixels = image.getConstPixels(0,row,columns,1);
             // Transfer pixels, scaling to Quantum
             for( unsigned long nPixelCount = columns; nPixelCount ; nPixelCount-- )
               {
-                pDestPixel->rgbRed = ScaleQuantumToChar(pPixels->red);
-                pDestPixel->rgbGreen = ScaleQuantumToChar(pPixels->green);
-                pDestPixel->rgbBlue = ScaleQuantumToChar(pPixels->blue);
+                pDestPixel->rgbRed = ScaleQuantumToChar(pPixels[0]);
+                pDestPixel->rgbGreen = ScaleQuantumToChar(pPixels[1]);
+                pDestPixel->rgbBlue = ScaleQuantumToChar(pPixels[2]);
                 pDestPixel->rgbReserved = 0;
                 ++pDestPixel;
                 ++pPixels;
               }
-#endif
           }
 
         // Create a display surface

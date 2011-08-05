@@ -78,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 CORE_DB_magick_.lib CORE_DB_xlib_.lib CORE_DB_Magick++_.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"C:\ImageMagickStudio\ImageMagick\VisualMagick\lib"
+# ADD LINK32 CORE_DB_MAGICKCORE_.lib CORE_DB_xlib_.lib CORE_DB_Magick++_.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"C:\ImageMagickStudio\ImageMagick\VisualMagick\lib"
 
 !ENDIF 
 
