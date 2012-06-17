@@ -129,8 +129,8 @@ BOOL CIMDisplayDoc::DoReadImage( void )
 	return FALSE;
     }
 
-    // Ensure that image is in RGB space
-    m_pImage.colorSpace(RGBColorspace);
+    // Ensure that image is in sRGB space
+    m_pImage.colorSpace(sRGBColorspace);
 
     EndWaitCursor();
 
