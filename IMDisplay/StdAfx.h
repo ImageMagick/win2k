@@ -20,7 +20,11 @@
   0x0400 - Windows 2000
  */
 #ifndef WINVER
-#  define WINVER 0x0501 /* Windows Server 2003, Windows XP */
+#  if defined(_MSC_VER) && (_MSC_VER < 1300)
+#    define WINVER 0x0400
+#  else
+#    define WINVER 0x0501
+#  endif 
 #endif
 
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
