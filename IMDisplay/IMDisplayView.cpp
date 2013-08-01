@@ -564,7 +564,7 @@ void CIMDisplayView::OnEditCopy()
     if (theBitsH == NULL)
 	 DoDisplayError( "OnEditCopy", GetLastError() );
     else {
-	Quantum *pPixels = pDoc->GetImage().getPixels(m_tracker.m_rect.left,
+	PixelPacket *pPixels = pDoc->GetImage().getPixels(m_tracker.m_rect.left,
 							   m_tracker.m_rect.top,
 							   m_tracker.m_rect.Width(),
 							   m_tracker.m_rect.Height());
@@ -860,7 +860,7 @@ void CIMDisplayView::DoDisplayImage( Image &inImage, CDC* pDC )
 
         for( unsigned int row = 0 ; row < rows ; row++ )
           {
-            const Quantum *pPixels = image.getConstPixels(0,row,columns,1);
+            const PixelPacket *pPixels = image.getConstPixels(0,row,columns,1);
             // Transfer pixels, scaling to Quantum
             for( unsigned long nPixelCount = columns; nPixelCount ; nPixelCount-- )
               {
