@@ -564,10 +564,17 @@ void CIMDisplayView::OnEditCopy()
     if (theBitsH == NULL)
 	 DoDisplayError( "OnEditCopy", GetLastError() );
     else {
+#if MagickLibVersion >= 0x700
 	Quantum *pPixels = pDoc->GetImage().getPixels(m_tracker.m_rect.left,
 							   m_tracker.m_rect.top,
 							   m_tracker.m_rect.Width(),
 							   m_tracker.m_rect.Height());
+#else
+	PixelPacket *pPixels = pDoc->GetImage().getPixels(m_tracker.m_rect.left,
+							   m_tracker.m_rect.top,
+							   m_tracker.m_rect.Width(),
+							   m_tracker.m_rect.Height());
+#endif
 
 	RGBQUAD * theBits = (RGBQUAD *) ::GlobalLock((HGLOBAL) theBitsH);
 	RGBQUAD *pDestPixel = theBits;
@@ -576,9 +583,15 @@ void CIMDisplayView::OnEditCopy()
 
 	for( unsigned long nPixelCount = nPixels; nPixelCount ; nPixelCount-- )
 	{
+#if MagickLibVersion >= 0x700
 		pDestPixel->rgbRed	    = ScaleQuantumToChar(pPixels[0]);
 		pDestPixel->rgbGreen    = ScaleQuantumToChar(pPixels[1]);
 		pDestPixel->rgbBlue	    = ScaleQuantumToChar(pPixels[2]);
+#else
+    pDestPixel->rgbRed      = ScaleQuantumToChar(pPixels->red);
+    pDestPixel->rgbGreen    = ScaleQuantumToChar(pPixels->green);
+    pDestPixel->rgbBlue     = ScaleQuantumToChar(pPixels->blue);
+#endif
 	    pDestPixel->rgbReserved = 0;
 	    ++pDestPixel;
 	    ++pPixels;
@@ -858,6 +871,7 @@ void CIMDisplayView::DoDisplayImage( Image &inImage, CDC* pDC )
 
         RGBQUAD *pDestPixel = prgbaDIB;
 
+#if MagickLibVersion >= 0x700
         for( unsigned int row = 0 ; row < rows ; row++ )
           {
             const Quantum *pPixels = image.getConstPixels(0,row,columns,1);
@@ -872,6 +886,22 @@ void CIMDisplayView::DoDisplayImage( Image &inImage, CDC* pDC )
                 ++pPixels;
               }
           }
+#else
+        for( unsigned int row = 0 ; row < rows ; row++ )
+          {
+            const PixelPacket *pPixels = image.getConstPixels(0,row,columns,1);
+            // Transfer pixels, scaling to Quantum
+            for( unsigned long nPixelCount = columns; nPixelCount ; nPixelCount-- )
+              {
+                pDestPixel->rgbRed = ScaleQuantumToChar(pPixels->red);
+                pDestPixel->rgbGreen = ScaleQuantumToChar(pPixels->green);
+                pDestPixel->rgbBlue = ScaleQuantumToChar(pPixels->blue);
+                pDestPixel->rgbReserved = 0;
+                ++pDestPixel;
+                ++pPixels;
+              }
+          }
+#endif
 
         // Create a display surface
         mOffscreenDC = new CDC();
