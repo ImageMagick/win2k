@@ -18,18 +18,17 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CIMDisplayDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CIMDisplayDoc, CDocument)
-	//{{AFX_MSG_MAP(CIMDisplayDoc)
-	//}}AFX_MSG_MAP
+  //{{AFX_MSG_MAP(CIMDisplayDoc)
+  //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CIMDisplayDoc construction/destruction
 
 CIMDisplayDoc::CIMDisplayDoc()
-: m_pImage( NULL )
+  : m_pImage(NULL)
 {
-	// TODO: add one-time construction code here
-
+  // TODO: add one-time construction code here
 }
 
 CIMDisplayDoc::~CIMDisplayDoc()
@@ -38,30 +37,28 @@ CIMDisplayDoc::~CIMDisplayDoc()
 
 BOOL CIMDisplayDoc::OnNewDocument()
 {
-	if (!CDocument::OnNewDocument())
-		return FALSE;
+  if (!CDocument::OnNewDocument())
+    return FALSE;
 
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
+  // TODO: add reinitialization code here
+  // (SDI documents will reuse this document)
 
-	return TRUE;
+  return TRUE;
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CIMDisplayDoc serialization
 
 void CIMDisplayDoc::Serialize(CArchive& ar)
 {
-	if (ar.IsStoring())
-	{
-		// TODO: add storing code here
-	}
-	else
-	{
-		// TODO: add loading code here
-	}
+  if (ar.IsStoring())
+  {
+    // TODO: add storing code here
+  }
+  else
+  {
+    // TODO: add loading code here
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -70,27 +67,38 @@ void CIMDisplayDoc::Serialize(CArchive& ar)
 #ifdef _DEBUG
 void CIMDisplayDoc::AssertValid() const
 {
-	CDocument::AssertValid();
+  CDocument::AssertValid();
 }
 
 void CIMDisplayDoc::Dump(CDumpContext& dc) const
 {
-	CDocument::Dump(dc);
+  CDocument::Dump(dc);
 }
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CIMDisplayDoc commands
 
-BOOL CIMDisplayDoc::OnOpenDocument(LPCTSTR lpszPathName) 
+BOOL CIMDisplayDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
-	if (!CDocument::OnOpenDocument(lpszPathName))
-		return FALSE;
-	
-	m_szFile = lpszPathName;
-	DoReadImage();
-	
-	return TRUE;
+  if (!CDocument::OnOpenDocument(lpszPathName))
+    return FALSE;
+
+  m_szFile = lpszPathName;
+  DoReadImage();
+
+  return TRUE;
+}
+
+BOOL CIMDisplayDoc::OnSaveDocument(LPCTSTR lpszPathName)
+{
+  if (!CDocument::OnSaveDocument(lpszPathName))
+    return FALSE;
+
+  m_szFile = lpszPathName;
+  DoWriteImage();
+
+  return TRUE;
 }
 
 //-----------------------------------------------------------------------
@@ -98,43 +106,77 @@ BOOL CIMDisplayDoc::OnOpenDocument(LPCTSTR lpszPathName)
 // Read image.
 //-----------------------------------------------------------------------
 
-BOOL CIMDisplayDoc::DoReadImage( void )
+BOOL CIMDisplayDoc::DoReadImage(void)
 {
-    BeginWaitCursor();
+  BeginWaitCursor();
 
-    // Read the image and handle any exceptions
-    try
-    {
-	m_pImage.read(m_szFile.GetBuffer(MAX_PATH+1));
-    }
+  // Read the image and handle any exceptions
+  try
+  {
+    m_pImage.read(m_szFile.GetBuffer(MAX_PATH+1));
+  }
+  // Image may still be usable if there is a warning
+  catch(Magick::Warning &warning)
+  {
+    DoDisplayWarning("DoReadImage",warning.what());
+  }
+  // Image is not usable
+  catch(Magick::Error &error)
+  {
+    DoDisplayError("DoReadImage",error.what());
+    m_pImage.isValid(false);
+    return FALSE;
+  }
+  // Generic exception
+  catch(std::exception &e)
+  {
+    DoDisplayError("DoReadImage",e.what());
+    m_pImage.isValid(false);
+    return FALSE;
+  }
 
-    // Image may still be usable if there is a warning
-    catch(Magick::Warning &warning)
-    {
-      DoDisplayWarning("DoReadImage",warning.what());
-    }
+  // Ensure that image is in sRGB space
+  m_pImage.colorSpace(sRGBColorspace);
 
-    // Image is not usable
-    catch(Magick::Error &error)
-    {
-	DoDisplayError("DoReadImage",error.what());
-        m_pImage.isValid(false);
-	return FALSE;
-    }
+  EndWaitCursor();
 
-    catch(std::exception &e)
-    {
-	DoDisplayError("DoReadImage",e.what());
-        m_pImage.isValid(false);
-	return FALSE;
-    }
+  return TRUE;
+}
 
-    // Ensure that image is in sRGB space
-    m_pImage.colorSpace(sRGBColorspace);
+//-----------------------------------------------------------------------
+// DoWriteImage()
+// Write image.
+//-----------------------------------------------------------------------
 
-    EndWaitCursor();
+BOOL CIMDisplayDoc::DoWriteImage(void)
+{
+  BeginWaitCursor();
 
-    return TRUE;
+  try
+  {
+    m_pImage.write(m_szFile.GetBuffer(MAX_PATH+1));
+  }
+  // Image may still be usable if there is a warning
+  catch(Magick::Warning &warning)
+  {
+    DoDisplayWarning("DoWriteImage",warning.what());
+  }
+  // Image is not usable
+  catch(Magick::Error &error)
+  {
+    DoDisplayError("DoWriteImage",error.what());
+    return FALSE;
+  }
+  // Generic exception
+  catch(std::exception &e)
+  {
+    DoDisplayError("DoWriteImage",e.what());
+    return FALSE;
+  }
+  
+  EndWaitCursor();
+
+  return TRUE;
 }
 
 //-----------------------------------------------------------------------
@@ -144,9 +186,9 @@ BOOL CIMDisplayDoc::DoReadImage( void )
 
 void CIMDisplayDoc::DoDisplayError(CString szFunction, CString szCause)
 {
-    CString szMsg;
-    szMsg.Format("IMDisplayDoc function [%s] reported an error.\n%s",szFunction,szCause);
-    AfxMessageBox(szMsg,MB_OK);
+  CString szMsg;
+  szMsg.Format("IMDisplayDoc function [%s] reported an error.\n%s",szFunction,szCause);
+  AfxMessageBox(szMsg,MB_OK);
 }
 
 //-----------------------------------------------------------------------
@@ -156,8 +198,7 @@ void CIMDisplayDoc::DoDisplayError(CString szFunction, CString szCause)
 
 void CIMDisplayDoc::DoDisplayWarning(CString szFunction, CString szCause)
 {
-    CString szMsg;
-    szMsg.Format("IMDisplayDoc function [%s] reported a warning.\n%s",szFunction,szCause);
-    AfxMessageBox(szMsg,MB_OK);
+  CString szMsg;
+  szMsg.Format("IMDisplayDoc function [%s] reported a warning.\n%s",szFunction,szCause);
+  AfxMessageBox(szMsg,MB_OK);
 }
-
