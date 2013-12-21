@@ -851,7 +851,7 @@ void CIMDisplayView::DoDisplayImage(Image &inImage, CDC* pDC)
           //
 
           Magick::Image image=inImage;
-          if (inImage.matte())
+          if (inImage.alpha())
             {
               Magick::Image matteImage;
               matteImage.size(Magick::Geometry(inImage.columns(),inImage.rows()));
