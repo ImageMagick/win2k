@@ -176,7 +176,7 @@ BOOL CIMDisplayApp::InitInstance()
 	// more seriously in the future when we actually build up
 	// the list of support modules dynamically!
 	try {
-	    std::list<CoderInfo> coderList;
+	    std::vector<CoderInfo> coderList;
 		coderInfoList( &coderList, CoderInfo::TrueMatch, CoderInfo::AnyMatch, CoderInfo::AnyMatch);
 	}
 	catch(Exception e) {
