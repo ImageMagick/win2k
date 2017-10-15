@@ -14,7 +14,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #endif
 
 #define ClampToQuantum(quantum) (quantum > QuantumRange ? QuantumRange : quantum)
@@ -33,39 +33,39 @@ static char THIS_FILE[]=__FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CIMDisplayView
 
-IMPLEMENT_DYNCREATE(CIMDisplayView,CScrollView)
+IMPLEMENT_DYNCREATE(CIMDisplayView, CScrollView)
 
-BEGIN_MESSAGE_MAP(CIMDisplayView,CScrollView)
+BEGIN_MESSAGE_MAP(CIMDisplayView, CScrollView)
   //{{AFX_MSG_MAP(CIMDisplayView)
-  ON_COMMAND(IDM_HALFSIZE,OnHalfsize)
-  ON_COMMAND(IDM_ORIGINALSIZE,OnOriginalsize)
-  ON_COMMAND(IDM_DOUBLESIZE,OnDoublesize)
-  ON_COMMAND(IDM_RESIZE,OnResize)
-  ON_COMMAND(IDM_REVERT,OnRevert)
-  ON_COMMAND(ID_TRANSFORM_ROTATE,OnRotate)
-  ON_COMMAND(ID_TRANSFORM_ROTATELEFT,OnRotateLeft)
-  ON_COMMAND(ID_TRANSFORM_ROTATERIGHT,OnRotateRight)
-  ON_COMMAND(ID_TRANSFORM_FLIP,OnFlip)
-  ON_COMMAND(ID_TRANSFORM_FLOP,OnFlop)
-  ON_COMMAND(ID_TRANSFORM_SHEAR,OnShear)
-  ON_COMMAND(ID_TRANSFORM_ROLL,OnRoll)
+  ON_COMMAND(IDM_HALFSIZE, OnHalfsize)
+  ON_COMMAND(IDM_ORIGINALSIZE, OnOriginalsize)
+  ON_COMMAND(IDM_DOUBLESIZE, OnDoublesize)
+  ON_COMMAND(IDM_RESIZE, OnResize)
+  ON_COMMAND(IDM_REVERT, OnRevert)
+  ON_COMMAND(ID_TRANSFORM_ROTATE, OnRotate)
+  ON_COMMAND(ID_TRANSFORM_ROTATELEFT, OnRotateLeft)
+  ON_COMMAND(ID_TRANSFORM_ROTATERIGHT, OnRotateRight)
+  ON_COMMAND(ID_TRANSFORM_FLIP, OnFlip)
+  ON_COMMAND(ID_TRANSFORM_FLOP, OnFlop)
+  ON_COMMAND(ID_TRANSFORM_SHEAR, OnShear)
+  ON_COMMAND(ID_TRANSFORM_ROLL, OnRoll)
   ON_WM_LBUTTONDOWN()
-  ON_COMMAND(ID_TRANSFORM_CHOP,OnChop)
-  ON_COMMAND(ID_TRANSFORM_CROP,OnCrop)
-  ON_COMMAND(ID_EDIT_UNDO,OnEditUndo)
-  ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO,OnUpdateEditUndo)
-  ON_UPDATE_COMMAND_UI(ID_TRANSFORM_CHOP,OnUpdateChop)
-  ON_UPDATE_COMMAND_UI(ID_TRANSFORM_CROP,OnUpdateCrop)
-  ON_COMMAND(ID_TRANSFORM_TRIMEDGES,OnTrimedges)
-  ON_COMMAND(ID_EDIT_SELECT_ALL,OnEditSelectAll)
-  ON_COMMAND(ID_EDIT_COPY,OnEditCopy)
-  ON_UPDATE_COMMAND_UI(ID_EDIT_COPY,OnUpdateEditCopy)
+  ON_COMMAND(ID_TRANSFORM_CHOP, OnChop)
+  ON_COMMAND(ID_TRANSFORM_CROP, OnCrop)
+  ON_COMMAND(ID_EDIT_UNDO, OnEditUndo)
+  ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, OnUpdateEditUndo)
+  ON_UPDATE_COMMAND_UI(ID_TRANSFORM_CHOP, OnUpdateChop)
+  ON_UPDATE_COMMAND_UI(ID_TRANSFORM_CROP, OnUpdateCrop)
+  ON_COMMAND(ID_TRANSFORM_TRIMEDGES, OnTrimedges)
+  ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
+  ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
+  ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateEditCopy)
   ON_WM_SETCURSOR()
   //}}AFX_MSG_MAP
   // Standard printing commands
-  ON_COMMAND(ID_FILE_PRINT,CScrollView::OnFilePrint)
-  ON_COMMAND(ID_FILE_PRINT_DIRECT,CScrollView::OnFilePrint)
-  ON_COMMAND(ID_FILE_PRINT_PREVIEW,CScrollView::OnFilePrintPreview)
+  ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
+  ON_COMMAND(ID_FILE_PRINT_DIRECT, CScrollView::OnFilePrint)
+  ON_COMMAND(ID_FILE_PRINT_PREVIEW, CScrollView::OnFilePrintPreview)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -73,15 +73,15 @@ END_MESSAGE_MAP()
 
 CIMDisplayView::CIMDisplayView()
   : mOffscreenDC(NULL),
-    mViewDirty(true),
-    mUndoImage(Image())
+  mViewDirty(true),
+  mUndoImage(Image())
 {
   // setup the CRectTracker styles
   // I want a simple dotted line, with resize handles outside
-  m_tracker.m_nStyle&=~CRectTracker::solidLine;
-  m_tracker.m_nStyle^=CRectTracker::dottedLine;
-  m_tracker.m_nStyle&=~CRectTracker::resizeInside;
-  m_tracker.m_nStyle^=CRectTracker::resizeOutside;
+  m_tracker.m_nStyle &= ~CRectTracker::solidLine;
+  m_tracker.m_nStyle ^= CRectTracker::dottedLine;
+  m_tracker.m_nStyle &= ~CRectTracker::resizeInside;
+  m_tracker.m_nStyle ^= CRectTracker::resizeOutside;
 }
 
 CIMDisplayView::~CIMDisplayView()
@@ -103,17 +103,17 @@ BOOL CIMDisplayView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CIMDisplayView::OnDraw(CDC* pDC)
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
-  DoDisplayImage(pDoc->GetImage(),pDC);
+  DoDisplayImage(pDoc->GetImage(), pDC);
 }
 
 void CIMDisplayView::OnInitialUpdate()
 {
   CScrollView::OnInitialUpdate();
 
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   // Save initial image geometry
@@ -166,7 +166,7 @@ CIMDisplayDoc* CIMDisplayView::GetDocument() // non-debug version is inline
 /////////////////////////////////////////////////////////////////////////////
 // CIMDisplayView message handlers
 
-void CIMDisplayView::OnLButtonDown(UINT nFlags,CPoint point)
+void CIMDisplayView::OnLButtonDown(UINT nFlags, CPoint point)
 {
   CIMDisplayDoc* pDoc = GetDocument();
   ASSERT_VALID(pDoc);
@@ -174,57 +174,57 @@ void CIMDisplayView::OnLButtonDown(UINT nFlags,CPoint point)
   CRect rectSave;
   m_tracker.GetTrueRect(rectSave);
   if (m_tracker.HitTest(point) < 0)
+  {
+    // just to demonstrate CRectTracker::TrackRubberBand
+    CRectTracker tracker;
+    if (tracker.TrackRubberBand(this, point, true))
     {
-      // just to demonstrate CRectTracker::TrackRubberBand
-      CRectTracker tracker;
-      if (tracker.TrackRubberBand(this,point,true))
-        {
-          // MessageBeep(0); // beep indicates TRUE
+      // MessageBeep(0); // beep indicates TRUE
 
-          // see if rubber band intersects with the doc's tracker
-          CRect rectT;
-          tracker.m_rect.NormalizeRect(); // so intersect rect works
-          if (rectT.IntersectRect(tracker.m_rect, m_tracker.m_rect))
-            {
-              /*
-            // dotted line for outline
-            m_tracker.m_nStyle &= CRectTracker::dottedLine;
-            
-            // if so, put resize handles on it (ie. select it)
-            if (m_tracker.m_nStyle & CRectTracker::resizeInside)
-            {
-              // swap from resize inside to resize outside for effect
-              m_tracker.m_nStyle &= ~CRectTracker::resizeInside;
-              m_tracker.m_nStyle |= CRectTracker::resizeOutside;
-            }
-            else
-            {
-              // just use inside resize handles on first time
-              m_tracker.m_nStyle &= ~CRectTracker::resizeOutside;
-              m_tracker.m_nStyle |= CRectTracker::resizeInside;
-            }
-            */
+      // see if rubber band intersects with the doc's tracker
+      CRect rectT;
+      tracker.m_rect.NormalizeRect(); // so intersect rect works
+      if (rectT.IntersectRect(tracker.m_rect, m_tracker.m_rect))
+      {
+        /*
+      // dotted line for outline
+      m_tracker.m_nStyle &= CRectTracker::dottedLine;
 
-              UpdateTheView(false);
-            }
-
-          m_tracker.m_rect = tracker.m_rect;
-        }
+      // if so, put resize handles on it (ie. select it)
+      if (m_tracker.m_nStyle & CRectTracker::resizeInside)
+      {
+        // swap from resize inside to resize outside for effect
+        m_tracker.m_nStyle &= ~CRectTracker::resizeInside;
+        m_tracker.m_nStyle |= CRectTracker::resizeOutside;
+      }
       else
-        {
-          // clear the selection!
-          m_tracker.m_rect.left=m_tracker.m_rect.right=0;
-          m_tracker.m_rect.top=m_tracker.m_rect.bottom=0;
-        }
+      {
+        // just use inside resize handles on first time
+        m_tracker.m_nStyle &= ~CRectTracker::resizeOutside;
+        m_tracker.m_nStyle |= CRectTracker::resizeInside;
+      }
+      */
 
         UpdateTheView(false);
+      }
+
+      m_tracker.m_rect = tracker.m_rect;
     }
-    else if (m_tracker.Track(this,point,true))
+    else
     {
-      UpdateTheView(false);
+      // clear the selection!
+      m_tracker.m_rect.left = m_tracker.m_rect.right = 0;
+      m_tracker.m_rect.top = m_tracker.m_rect.bottom = 0;
     }
 
-    CScrollView::OnLButtonDown(nFlags,point);
+    UpdateTheView(false);
+  }
+  else if (m_tracker.Track(this, point, true))
+  {
+    UpdateTheView(false);
+  }
+
+  CScrollView::OnLButtonDown(nFlags, point);
 }
 
 void CIMDisplayView::OnHalfsize()
@@ -244,7 +244,7 @@ void CIMDisplayView::OnDoublesize()
 
 void CIMDisplayView::OnResize()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   CResizeDialog dlg;
@@ -253,11 +253,11 @@ void CIMDisplayView::OnResize()
   dlg.Height((int)pDoc->GetImage().rows());
 
   if (dlg.DoModal() == IDOK)
-    {
-      Geometry newGeo(dlg.Width(),dlg.Height());
-      newGeo.percent(dlg.IsPercentage());
-      ResizeImage(newGeo);
-    }
+  {
+    Geometry newGeo(dlg.Width(), dlg.Height());
+    newGeo.percent(dlg.IsPercentage());
+    ResizeImage(newGeo);
+  }
 }
 
 void CIMDisplayView::OnRevert()
@@ -266,7 +266,7 @@ void CIMDisplayView::OnRevert()
   ASSERT_VALID(pDoc);
 
   // we revert by rereading the original image!
-  pDoc->DoReadImage(); 
+  pDoc->DoReadImage();
 
   UpdateTheView();
 }
@@ -283,9 +283,9 @@ void CIMDisplayView::OnRotate()
   dlg.Angle(180); // good default as any...
 
   if (dlg.DoModal() == IDOK)
-    {
-      RotateImage(dlg.Angle());
-    }
+  {
+    RotateImage(dlg.Angle());
+  }
 }
 
 void CIMDisplayView::OnRotateLeft()
@@ -293,14 +293,14 @@ void CIMDisplayView::OnRotateLeft()
   RotateImage(-90);
 }
 
-void CIMDisplayView::OnRotateRight() 
+void CIMDisplayView::OnRotateRight()
 {
   RotateImage(90);
 }
 
 void CIMDisplayView::OnFlip()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -311,9 +311,9 @@ void CIMDisplayView::OnFlip()
   {
     pDoc->GetImage().flip();
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("OnFlip",e.what());
+    DoDisplayError("OnFlip", e.what());
   }
 
   EndWaitCursor();
@@ -323,7 +323,7 @@ void CIMDisplayView::OnFlip()
 
 void CIMDisplayView::OnFlop()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -335,9 +335,9 @@ void CIMDisplayView::OnFlop()
     pDoc->GetImage().flop();
   }
 
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("OnFlip",e.what());
+    DoDisplayError("OnFlip", e.what());
   }
 
   EndWaitCursor();
@@ -352,22 +352,22 @@ void CIMDisplayView::OnShear()
   dlg.YShear(45); // good default as any...
 
   if (dlg.DoModal() == IDOK)
+  {
+    CIMDisplayDoc *pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    SetupUndo();
+
+    BeginWaitCursor();
+
+    try
     {
-      CIMDisplayDoc *pDoc=GetDocument();
-      ASSERT_VALID(pDoc);
-
-      SetupUndo();
-
-      BeginWaitCursor();
-
-      try
-      {
-        pDoc->GetImage().shear(dlg.XShear(),dlg.YShear());
-      }
-      catch(Exception e)
-      {
-        DoDisplayError("OnShear",e.what());
-      }
+      pDoc->GetImage().shear(dlg.XShear(), dlg.YShear());
+    }
+    catch (Exception e)
+    {
+      DoDisplayError("OnShear", e.what());
+    }
 
     EndWaitCursor();
 
@@ -382,32 +382,32 @@ void CIMDisplayView::OnRoll()
   dlg.VPixels(25); // good default as any...
 
   if (dlg.DoModal() == IDOK)
+  {
+    CIMDisplayDoc *pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    SetupUndo();
+
+    BeginWaitCursor();
+
+    try
     {
-      CIMDisplayDoc *pDoc=GetDocument();
-      ASSERT_VALID(pDoc);
-
-      SetupUndo();
-
-      BeginWaitCursor();
-
-      try
-      {
-        pDoc->GetImage().roll(dlg.HPixels(),dlg.VPixels());
-      }
-      catch(Exception e)
-      {
-        DoDisplayError("OnRoll",e.what());
-      }
-
-      EndWaitCursor();
-
-      UpdateTheView();
+      pDoc->GetImage().roll(dlg.HPixels(), dlg.VPixels());
     }
+    catch (Exception e)
+    {
+      DoDisplayError("OnRoll", e.what());
+    }
+
+    EndWaitCursor();
+
+    UpdateTheView();
+  }
 }
 
 void CIMDisplayView::OnChop()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -419,13 +419,13 @@ void CIMDisplayView::OnChop()
     CRect trackRect;
     m_tracker.GetTrueRect(trackRect);
 
-    Geometry newGeo(trackRect.Width(),trackRect.Height(),trackRect.left,
+    Geometry newGeo(trackRect.Width(), trackRect.Height(), trackRect.left,
       trackRect.top);
     pDoc->GetImage().chop(newGeo);
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("OnChop",e.what());
+    DoDisplayError("OnChop", e.what());
   }
 
   EndWaitCursor();
@@ -439,9 +439,9 @@ void CIMDisplayView::OnUpdateChop(CCmdUI* pCmdUI)
   pCmdUI->Enable(m_tracker.m_rect.Width() > 0);
 }
 
-void CIMDisplayView::OnCrop() 
+void CIMDisplayView::OnCrop()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -453,14 +453,14 @@ void CIMDisplayView::OnCrop()
     CRect trackRect;
     m_tracker.GetTrueRect(trackRect);
 
-    Geometry newGeo(trackRect.Width(),trackRect.Height(),trackRect.left,
+    Geometry newGeo(trackRect.Width(), trackRect.Height(), trackRect.left,
       trackRect.top);
-    pDoc->GetImage().crop( newGeo );
+    pDoc->GetImage().crop(newGeo);
   }
 
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("OnCrop",e.what());
+    DoDisplayError("OnCrop", e.what());
   }
 
   EndWaitCursor();
@@ -468,15 +468,15 @@ void CIMDisplayView::OnCrop()
   UpdateTheView();
 }
 
-void CIMDisplayView::OnUpdateCrop(CCmdUI* pCmdUI) 
+void CIMDisplayView::OnUpdateCrop(CCmdUI* pCmdUI)
 {
   // Enable/Disable the user-interface object
   pCmdUI->Enable(m_tracker.m_rect.Width() > 0);
 }
 
-void CIMDisplayView::OnTrimedges() 
+void CIMDisplayView::OnTrimedges()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -487,9 +487,9 @@ void CIMDisplayView::OnTrimedges()
   {
     pDoc->GetImage().trim();
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("onTrimEdges",e.what());
+    DoDisplayError("onTrimEdges", e.what());
   }
 
   EndWaitCursor();
@@ -511,27 +511,27 @@ void CIMDisplayView::OnEditUndo()
 void CIMDisplayView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
   // Enable/Disable the user-interface object
-  pCmdUI->Enable( mUndoImage.isValid() );
+  pCmdUI->Enable(mUndoImage.isValid());
 }
 
-void CIMDisplayView::OnEditSelectAll() 
+void CIMDisplayView::OnEditSelectAll()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
-  m_tracker.m_rect=CRect(0,0,(int) pDoc->GetImage().columns(),(int) pDoc->GetImage().rows());
+  m_tracker.m_rect = CRect(0, 0, (int)pDoc->GetImage().columns(), (int)pDoc->GetImage().rows());
   UpdateTheView(false);
 }
 
 void CIMDisplayView::OnEditCopy()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   OpenClipboard();
   EmptyClipboard();
 
-  unsigned long nPixels=m_tracker.m_rect.Width() * m_tracker.m_rect.Height();
+  unsigned long nPixels = m_tracker.m_rect.Width() * m_tracker.m_rect.Height();
 
   /*
   CClientDC cdc(this);
@@ -558,46 +558,46 @@ void CIMDisplayView::OnEditCopy()
 */
 
   BITMAP bitmap;
-  bitmap.bmType=0;
-  bitmap.bmWidth=m_tracker.m_rect.Width();
-  bitmap.bmHeight=m_tracker.m_rect.Height();
-  bitmap.bmWidthBytes=bitmap.bmWidth*4;
-  bitmap.bmPlanes=1;
-  bitmap.bmBitsPixel=32;
-  bitmap.bmBits=NULL;
+  bitmap.bmType = 0;
+  bitmap.bmWidth = m_tracker.m_rect.Width();
+  bitmap.bmHeight = m_tracker.m_rect.Height();
+  bitmap.bmWidthBytes = bitmap.bmWidth * 4;
+  bitmap.bmPlanes = 1;
+  bitmap.bmBitsPixel = 32;
+  bitmap.bmBits = NULL;
 
-  long memSize=nPixels*bitmap.bmBitsPixel;
-  HANDLE theBitsH=(HANDLE) ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE,memSize);
+  long memSize = nPixels*bitmap.bmBitsPixel;
+  HANDLE theBitsH = (HANDLE) ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, memSize);
   if (theBitsH == NULL)
-    DoDisplayError( "OnEditCopy", GetLastError());
+    DoDisplayError("OnEditCopy", GetLastError());
   else
   {
     Pixels pixels(pDoc->GetImage());
-    const Quantum *pPixels=pixels.getConst(m_tracker.m_rect.left,
-      m_tracker.m_rect.top,m_tracker.m_rect.Width(),m_tracker.m_rect.Height());
+    const Quantum *pPixels = pixels.getConst(m_tracker.m_rect.left,
+      m_tracker.m_rect.top, m_tracker.m_rect.Width(), m_tracker.m_rect.Height());
 
-    RGBQUAD *theBits=(RGBQUAD *) ::GlobalLock((HGLOBAL) theBitsH);
-    RGBQUAD *pDestPixel=theBits;
+    RGBQUAD *theBits = (RGBQUAD *) ::GlobalLock((HGLOBAL)theBitsH);
+    RGBQUAD *pDestPixel = theBits;
     if (bitmap.bmBits == NULL)
-      bitmap.bmBits=theBits;
+      bitmap.bmBits = theBits;
 
-    ssize_t redOffset=pixels.offset(PixelChannel::RedPixelChannel);
-    ssize_t greenOffset=pixels.offset(PixelChannel::GreenPixelChannel);
-    ssize_t blueOffset=pixels.offset(PixelChannel::BluePixelChannel);
-    size_t channels=pDoc->GetImage().channels();
+    ssize_t redOffset = pixels.offset(PixelChannel::RedPixelChannel);
+    ssize_t greenOffset = pixels.offset(PixelChannel::GreenPixelChannel);
+    ssize_t blueOffset = pixels.offset(PixelChannel::BluePixelChannel);
+    size_t channels = pDoc->GetImage().channels();
 
-    for (unsigned long nPixelCount=nPixels; nPixelCount; nPixelCount--)
+    for (unsigned long nPixelCount = nPixels; nPixelCount; nPixelCount--)
     {
-      pDestPixel->rgbRed=ScaleQuantumToChar(pPixels[redOffset]);
-      pDestPixel->rgbGreen=ScaleQuantumToChar(pPixels[greenOffset]);
-      pDestPixel->rgbBlue=ScaleQuantumToChar(pPixels[blueOffset]);
-      pDestPixel->rgbReserved=0;
+      pDestPixel->rgbRed = ScaleQuantumToChar(pPixels[redOffset]);
+      pDestPixel->rgbGreen = ScaleQuantumToChar(pPixels[greenOffset]);
+      pDestPixel->rgbBlue = ScaleQuantumToChar(pPixels[blueOffset]);
+      pDestPixel->rgbReserved = 0;
       ++pDestPixel;
-      pPixels+=channels;
+      pPixels += channels;
     }
 
 #if 0
-    DWORD result=junk->SetBitmapBits(memSize,theBits);
+    DWORD result = junk->SetBitmapBits(memSize, theBits);
     if (result == 0)
       DoDisplayError("OnEditCopy", GetLastError());
 #else
@@ -605,7 +605,7 @@ void CIMDisplayView::OnEditCopy()
     CBitmap * junk = new CBitmap();
     junk->CreateBitmapIndirect(&bitmap);
 #endif
-    ::GlobalUnlock((HGLOBAL) theBitsH);
+    ::GlobalUnlock((HGLOBAL)theBitsH);
 
     SetClipboardData(CF_BITMAP, junk->m_hObject);
     CloseClipboard();
@@ -620,11 +620,11 @@ void CIMDisplayView::OnUpdateEditCopy(CCmdUI* pCmdUI)
   pCmdUI->Enable(m_tracker.m_rect.Width() > 0);
 }
 
-BOOL CIMDisplayView::OnSetCursor(CWnd* pWnd,UINT nHitTest,UINT message)
+BOOL CIMDisplayView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-  BOOL isTracker=m_tracker.SetCursor(pWnd,nHitTest);
+  BOOL isTracker = m_tracker.SetCursor(pWnd, nHitTest);
   if (isTracker == 0)
-    return CScrollView::OnSetCursor(pWnd,nHitTest,message);
+    return CScrollView::OnSetCursor(pWnd, nHitTest, message);
   else
     return isTracker;
 }
@@ -634,32 +634,32 @@ BOOL CIMDisplayView::OnSetCursor(CWnd* pWnd,UINT nHitTest,UINT message)
 void CIMDisplayView::SetViewSize()
 {
   CSize sizeTotal;
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
   if (pDoc->GetImage().isValid())
-    {
-      sizeTotal.cx=(int) pDoc->GetImage().columns();
-      sizeTotal.cy=(int) pDoc->GetImage().rows();
-    }
+  {
+    sizeTotal.cx = (int)pDoc->GetImage().columns();
+    sizeTotal.cy = (int)pDoc->GetImage().rows();
+  }
   else
-    {
-      sizeTotal.cx=sizeTotal.cy=100;
-    }
+  {
+    sizeTotal.cx = sizeTotal.cy = 100;
+  }
   SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
 void CIMDisplayView::UpdateTheView(bool inClearTracker)
 {
-  mViewDirty=true;
+  mViewDirty = true;
   Invalidate();
   if (inClearTracker)
-    m_tracker.m_rect=CRect(0,0,0,0);
+    m_tracker.m_rect = CRect(0, 0, 0, 0);
   OnUpdate(this, NULL, NULL);
 }
 
 void CIMDisplayView::ScaleImage(Geometry& inGeometry)
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -671,9 +671,9 @@ void CIMDisplayView::ScaleImage(Geometry& inGeometry)
     // NOTE: should this be scale or sample?
     pDoc->GetImage().scale(inGeometry);
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("ScaleImage",e.what());
+    DoDisplayError("ScaleImage", e.what());
   }
 
   EndWaitCursor();
@@ -683,7 +683,7 @@ void CIMDisplayView::ScaleImage(Geometry& inGeometry)
 
 void CIMDisplayView::ResizeImage(Geometry& inGeometry)
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -694,9 +694,9 @@ void CIMDisplayView::ResizeImage(Geometry& inGeometry)
   {
     pDoc->GetImage().zoom(inGeometry);
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("ResizeImage",e.what());
+    DoDisplayError("ResizeImage", e.what());
   }
 
   EndWaitCursor();
@@ -706,7 +706,7 @@ void CIMDisplayView::ResizeImage(Geometry& inGeometry)
 
 void CIMDisplayView::MagnifyImage(void)
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -717,9 +717,9 @@ void CIMDisplayView::MagnifyImage(void)
   {
     pDoc->GetImage().magnify();
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("MagnifyImage",e.what());
+    DoDisplayError("MagnifyImage", e.what());
   }
 
   EndWaitCursor();
@@ -729,7 +729,7 @@ void CIMDisplayView::MagnifyImage(void)
 
 void CIMDisplayView::MinifyImage(void)
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -740,9 +740,9 @@ void CIMDisplayView::MinifyImage(void)
   {
     pDoc->GetImage().minify();
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("MinifyImage",e.what());
+    DoDisplayError("MinifyImage", e.what());
   }
 
   EndWaitCursor();
@@ -752,7 +752,7 @@ void CIMDisplayView::MinifyImage(void)
 
 void CIMDisplayView::RotateImage(double inDegrees)
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
   SetupUndo();
@@ -763,9 +763,9 @@ void CIMDisplayView::RotateImage(double inDegrees)
   {
     pDoc->GetImage().rotate(inDegrees);
   }
-  catch(Exception e)
+  catch (Exception e)
   {
-    DoDisplayError("RotateImage",e.what());
+    DoDisplayError("RotateImage", e.what());
   }
 
   EndWaitCursor();
@@ -775,10 +775,10 @@ void CIMDisplayView::RotateImage(double inDegrees)
 
 void CIMDisplayView::SetupUndo()
 {
-  CIMDisplayDoc *pDoc=GetDocument();
+  CIMDisplayDoc *pDoc = GetDocument();
   ASSERT_VALID(pDoc);
 
-  mUndoImage=pDoc->GetImage();
+  mUndoImage = pDoc->GetImage();
 }
 
 //-----------------------------------------------------------------------
@@ -792,130 +792,130 @@ void CIMDisplayView::DoDisplayImage(Image &inImage, CDC* pDC)
 
   // make sure we're getting a valid image!
   if (!inImage.isValid())
-    {
-      return;
-    }
+  {
+    return;
+  }
 
   // if the view is dirty, dispose the old offscreen!
   if (mViewDirty == true)
-    {
-      delete mOffscreenDC;
-      mOffscreenDC=NULL;
-    }
+  {
+    delete mOffscreenDC;
+    mOffscreenDC = NULL;
+  }
 
   // make sure we have a valid destination DC
   if (pDC != NULL)
+  {
+
+    // if we don't already have a ready offscreen, then prepare one
+    if (!mOffscreenDC)
     {
+      //
+      // Set up the Windows bitmap header
+      //
+      BITMAPINFOHEADER bmi;
+      bmi.biSize = sizeof(BITMAPINFOHEADER);     // Size of structure
+      bmi.biWidth = (LONG)inImage.columns();    // Bitmaps width in pixels
+      bmi.biHeight = (-1)*(LONG)inImage.rows(); // Bitmaps height n pixels
+      bmi.biPlanes = 1;                          // Number of planes in the image
+      bmi.biBitCount = 32;                       // The number of bits per pixel
+      bmi.biCompression = BI_RGB;                // The type of compression used
+      bmi.biSizeImage = 0;                       // The size of the image in bytes
+      bmi.biXPelsPerMeter = 0;                   // Horizontal resolution
+      bmi.biYPelsPerMeter = 0;                   // Veritical resolution
+      bmi.biClrUsed = 0;                         // Number of colors actually used
+      bmi.biClrImportant = 0;                    // Colors most important
+      mBMI = bmi;                                // keep it for clipboard use...
 
-      // if we don't already have a ready offscreen, then prepare one
-      if ( !mOffscreenDC )
+      RGBQUAD *prgbaDIB = 0;
+      hBitmap = CreateDIBSection
+      (
+        pDC->m_hDC,         // handle to device context
+        (BITMAPINFO *)&bmi, // pointer to structure containing bitmap size, format, and color data
+        DIB_RGB_COLORS,     // color data type indicator: RGB values or palette indices
+        (void**)&prgbaDIB,  // pointer to variable to receive a pointer to the bitmap's bit values
+        NULL,               // optional handle to a file mapping object
+        0                   // offset to the bitmap bit values within the file mapping object
+      );
+
+      if (!hBitmap)
+      {
+        CString message;
+        message.FormatMessage(L"Windows failed to allocate bitmap of size %1!d!x%2!d!!",
+          inImage.rows(), inImage.columns());
+        DoDisplayError("DoDisplayImage", message);
+        return;
+      }
+
+      //
+      // If image is non-opaque, create overlay the image on top of
+      // a pattern background so non-opaque regions become evident.
+      //
+
+      Magick::Image image = inImage;
+      if (inImage.alpha())
+      {
+        Magick::Image matteImage;
+        matteImage.size(Magick::Geometry(inImage.columns(), inImage.rows()));
+        matteImage.read("pattern:checkerboard");
+        matteImage.composite(inImage, 0, 0, AtopCompositeOp);
+        image = matteImage;
+      }
+
+      //
+      // Extract the pixels from Magick++ image object and convert to a DIB section
+      //
+
+      const unsigned int columns = (unsigned int)image.columns();
+      const unsigned int rows = (unsigned int)image.rows();
+
+      RGBQUAD *pDestPixel = prgbaDIB;
+
+      Pixels pixels(image);
+      ssize_t redOffset = pixels.offset(PixelChannel::RedPixelChannel);
+      ssize_t greenOffset = pixels.offset(PixelChannel::GreenPixelChannel);
+      ssize_t blueOffset = pixels.offset(PixelChannel::BluePixelChannel);
+      size_t channels = image.channels();
+
+      for (unsigned int row = 0; row < rows; row++)
+      {
+        const Quantum *pPixels = pixels.getConst(0, row, columns, 1);
+        // Transfer pixels, scaling to Quantum
+        for (unsigned long nPixelCount = columns; nPixelCount; nPixelCount--)
         {
-          //
-          // Set up the Windows bitmap header
-          //
-          BITMAPINFOHEADER bmi;
-          bmi.biSize=sizeof(BITMAPINFOHEADER);     // Size of structure
-          bmi.biWidth=(LONG) inImage.columns();    // Bitmaps width in pixels
-          bmi.biHeight=(-1)*(LONG) inImage.rows(); // Bitmaps height n pixels
-          bmi.biPlanes=1;                          // Number of planes in the image
-          bmi.biBitCount=32;                       // The number of bits per pixel
-          bmi.biCompression=BI_RGB;                // The type of compression used
-          bmi.biSizeImage=0;                       // The size of the image in bytes
-          bmi.biXPelsPerMeter=0;                   // Horizontal resolution
-          bmi.biYPelsPerMeter=0;                   // Veritical resolution
-          bmi.biClrUsed=0;                         // Number of colors actually used
-          bmi.biClrImportant=0;                    // Colors most important
-          mBMI=bmi;                                // keep it for clipboard use...
-
-          RGBQUAD *prgbaDIB=0;
-          hBitmap=CreateDIBSection
-          (
-            pDC->m_hDC,         // handle to device context
-            (BITMAPINFO *)&bmi, // pointer to structure containing bitmap size, format, and color data
-            DIB_RGB_COLORS,     // color data type indicator: RGB values or palette indices
-            (void**)&prgbaDIB,  // pointer to variable to receive a pointer to the bitmap's bit values
-            NULL,               // optional handle to a file mapping object
-            0                   // offset to the bitmap bit values within the file mapping object
-          );
-
-          if (!hBitmap)
-            {
-              CString message;
-              message.FormatMessage(L"Windows failed to allocate bitmap of size %1!d!x%2!d!!",
-                inImage.rows(),inImage.columns());
-              DoDisplayError("DoDisplayImage",message);
-              return;
-            }
-
-          //
-          // If image is non-opaque, create overlay the image on top of
-          // a pattern background so non-opaque regions become evident.
-          //
-
-          Magick::Image image=inImage;
-          if (inImage.alpha())
-            {
-              Magick::Image matteImage;
-              matteImage.size(Magick::Geometry(inImage.columns(),inImage.rows()));
-              matteImage.read("pattern:checkerboard");
-              matteImage.composite(inImage,0,0,AtopCompositeOp);
-              image=matteImage;
-            }
-
-          //
-          // Extract the pixels from Magick++ image object and convert to a DIB section
-          //
-
-          const unsigned int columns=(unsigned int) image.columns();
-          const unsigned int rows=(unsigned int) image.rows();
-
-          RGBQUAD *pDestPixel=prgbaDIB;
-
-          Pixels pixels(image);
-          ssize_t redOffset=pixels.offset(PixelChannel::RedPixelChannel);
-          ssize_t greenOffset=pixels.offset(PixelChannel::GreenPixelChannel);
-          ssize_t blueOffset=pixels.offset(PixelChannel::BluePixelChannel);
-          size_t channels=image.channels();
-
-          for (unsigned int row=0; row < rows ; row++)
-          {
-            const Quantum *pPixels=pixels.getConst(0,row,columns,1);
-            // Transfer pixels, scaling to Quantum
-            for( unsigned long nPixelCount=columns; nPixelCount; nPixelCount--)
-            {
-              pDestPixel->rgbRed=ScaleQuantumToChar(pPixels[redOffset]);
-              pDestPixel->rgbGreen=ScaleQuantumToChar(pPixels[greenOffset]);
-              pDestPixel->rgbBlue=ScaleQuantumToChar(pPixels[blueOffset]);
-              pDestPixel->rgbReserved=0;
-              ++pDestPixel;
-              pPixels+=channels;
-            }
-          }
-
-          // Create a display surface
-          mOffscreenDC=new CDC();
-          mOffscreenDC->CreateCompatibleDC(pDC);
-
-          // Clear the background (Is this really necessary?)
-          //CRect rectClient;
-          //GetClientRect(rectClient);
-          //mOffscreenDC->FillSolidRect(rectClient,mOffscreenDC->GetBkColor());
-
-          // Now copy the bitmap to device
-          mOffscreenDC->SelectObject( hBitmap );
-          DeleteObject( hBitmap );
+          pDestPixel->rgbRed = ScaleQuantumToChar(pPixels[redOffset]);
+          pDestPixel->rgbGreen = ScaleQuantumToChar(pPixels[greenOffset]);
+          pDestPixel->rgbBlue = ScaleQuantumToChar(pPixels[blueOffset]);
+          pDestPixel->rgbReserved = 0;
+          ++pDestPixel;
+          pPixels += channels;
         }
+      }
 
-      pDC->BitBlt(0,0,(unsigned int) inImage.columns(),
-        (unsigned int) inImage.rows(),mOffscreenDC,0,0,SRCCOPY);
-      mViewDirty=false; // not any more!
+      // Create a display surface
+      mOffscreenDC = new CDC();
+      mOffscreenDC->CreateCompatibleDC(pDC);
 
-      // draw the marching ants, if any
-      bool isPrinting=pDC->IsPrinting();
+      // Clear the background (Is this really necessary?)
+      //CRect rectClient;
+      //GetClientRect(rectClient);
+      //mOffscreenDC->FillSolidRect(rectClient,mOffscreenDC->GetBkColor());
 
-      if (!isPrinting && m_tracker.m_rect.Width() && m_tracker.m_rect.Height())
-        m_tracker.Draw(pDC);
+      // Now copy the bitmap to device
+      mOffscreenDC->SelectObject(hBitmap);
+      DeleteObject(hBitmap);
     }
+
+    pDC->BitBlt(0, 0, (unsigned int)inImage.columns(),
+      (unsigned int)inImage.rows(), mOffscreenDC, 0, 0, SRCCOPY);
+    mViewDirty = false; // not any more!
+
+    // draw the marching ants, if any
+    bool isPrinting = pDC->IsPrinting();
+
+    if (!isPrinting && m_tracker.m_rect.Width() && m_tracker.m_rect.Height())
+      m_tracker.Draw(pDC);
+  }
 }
 
 //-----------------------------------------------------------------------
@@ -923,21 +923,21 @@ void CIMDisplayView::DoDisplayImage(Image &inImage, CDC* pDC)
 // Display the cause of any unhandle exceptions.
 //-----------------------------------------------------------------------
 
-void CIMDisplayView::DoDisplayError(CString szFunction,CString szCause)
+void CIMDisplayView::DoDisplayError(CString szFunction, CString szCause)
 {
   CString szMsg;
   szMsg.Format(L"IMDisplayView function [%s] encountered an error.\n%s",
-    szFunction,szCause);
-  AfxMessageBox(szMsg,MB_OK);
+    szFunction, szCause);
+  AfxMessageBox(szMsg, MB_OK);
 }
 
-void CIMDisplayView::DoDisplayError(CString szFunction,DWORD inError)
+void CIMDisplayView::DoDisplayError(CString szFunction, DWORD inError)
 {
   LPVOID lpMsgBuf;
   FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
-    FORMAT_MESSAGE_IGNORE_INSERTS,NULL,inError,
-    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),(LPTSTR) &lpMsgBuf,0,NULL);
+    FORMAT_MESSAGE_IGNORE_INSERTS, NULL, inError,
+    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
 
-  MessageBox((LPCTSTR)lpMsgBuf,L"Error",MB_OK | MB_ICONINFORMATION);
+  MessageBox((LPCTSTR)lpMsgBuf, L"Error", MB_OK | MB_ICONINFORMATION);
   LocalFree(lpMsgBuf);
 }

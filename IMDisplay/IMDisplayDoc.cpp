@@ -114,10 +114,10 @@ static inline std::string ws2s(const std::wstring& s)
   std::string
     result;
 
-  len=WideCharToMultiByte(CP_UTF8,0,s.c_str(),(int) s.length()+1,0,0,0,0);
-  result=std::string(len,'\0');
-  (void) WideCharToMultiByte(CP_UTF8,0,s.c_str(),(int) s.length()+1,&result[0],
-    len,0,0);
+  len = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), (int)s.length() + 1, 0, 0, 0, 0);
+  result = std::string(len, '\0');
+  (void)WideCharToMultiByte(CP_UTF8, 0, s.c_str(), (int)s.length() + 1, &result[0],
+    len, 0, 0);
   return result;
 }
 
@@ -128,24 +128,24 @@ BOOL CIMDisplayDoc::DoReadImage(void)
   // Read the image and handle any exceptions
   try
   {
-    m_pImage.read(ws2s(m_szFile.GetBuffer(MAX_PATH+1)));
+    m_pImage.read(ws2s(m_szFile.GetBuffer(MAX_PATH + 1)));
   }
   // Image may still be usable if there is a warning
-  catch(Magick::Warning &warning)
+  catch (Magick::Warning &warning)
   {
-    DoDisplayWarning("DoReadImage",warning.what());
+    DoDisplayWarning("DoReadImage", warning.what());
   }
   // Image is not usable
-  catch(Magick::Error &error)
+  catch (Magick::Error &error)
   {
-    DoDisplayError("DoReadImage",error.what());
+    DoDisplayError("DoReadImage", error.what());
     m_pImage.isValid(false);
     return FALSE;
   }
   // Generic exception
-  catch(std::exception &e)
+  catch (std::exception &e)
   {
-    DoDisplayError("DoReadImage",e.what());
+    DoDisplayError("DoReadImage", e.what());
     m_pImage.isValid(false);
     return FALSE;
   }
@@ -169,26 +169,26 @@ BOOL CIMDisplayDoc::DoWriteImage(void)
 
   try
   {
-    m_pImage.write(ws2s(m_szFile.GetBuffer(MAX_PATH+1)));
+    m_pImage.write(ws2s(m_szFile.GetBuffer(MAX_PATH + 1)));
   }
   // Image may still be usable if there is a warning
-  catch(Magick::Warning &warning)
+  catch (Magick::Warning &warning)
   {
-    DoDisplayWarning("DoWriteImage",warning.what());
+    DoDisplayWarning("DoWriteImage", warning.what());
   }
   // Image is not usable
-  catch(Magick::Error &error)
+  catch (Magick::Error &error)
   {
-    DoDisplayError("DoWriteImage",error.what());
+    DoDisplayError("DoWriteImage", error.what());
     return FALSE;
   }
   // Generic exception
-  catch(std::exception &e)
+  catch (std::exception &e)
   {
-    DoDisplayError("DoWriteImage",e.what());
+    DoDisplayError("DoWriteImage", e.what());
     return FALSE;
   }
-  
+
   EndWaitCursor();
 
   return TRUE;
@@ -202,8 +202,8 @@ BOOL CIMDisplayDoc::DoWriteImage(void)
 void CIMDisplayDoc::DoDisplayError(CString szFunction, CString szCause)
 {
   CString szMsg;
-  szMsg.Format(L"IMDisplayDoc function [%s] reported an error.\n%s",szFunction,szCause);
-  AfxMessageBox(szMsg,MB_OK);
+  szMsg.Format(L"IMDisplayDoc function [%s] reported an error.\n%s", szFunction, szCause);
+  AfxMessageBox(szMsg, MB_OK);
 }
 
 //-----------------------------------------------------------------------
@@ -214,6 +214,6 @@ void CIMDisplayDoc::DoDisplayError(CString szFunction, CString szCause)
 void CIMDisplayDoc::DoDisplayWarning(CString szFunction, CString szCause)
 {
   CString szMsg;
-  szMsg.Format(L"IMDisplayDoc function [%s] reported a warning.\n%s",szFunction,szCause);
-  AfxMessageBox(szMsg,MB_OK);
+  szMsg.Format(L"IMDisplayDoc function [%s] reported a warning.\n%s", szFunction, szCause);
+  AfxMessageBox(szMsg, MB_OK);
 }
