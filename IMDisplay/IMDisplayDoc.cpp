@@ -199,11 +199,14 @@ BOOL CIMDisplayDoc::DoWriteImage(void)
 // Display the cause of any unhandle exceptions.
 //-----------------------------------------------------------------------
 
-void CIMDisplayDoc::DoDisplayError(CString szFunction, CString szCause)
+void CIMDisplayDoc::DoDisplayError(const char *szFunction,const char *szCause)
 {
-  CString szMsg;
-  szMsg.Format(L"IMDisplayDoc function [%s] reported an error.\n%s", szFunction, szCause);
-  AfxMessageBox(szMsg, MB_OK);
+  CString
+    szMsg;
+
+  szMsg.Format(L"IMDisplayDoc function [%s] reported an error.\n%s",
+    szFunction,szCause);
+  AfxMessageBox(szMsg,MB_OK);
 }
 
 //-----------------------------------------------------------------------
@@ -211,9 +214,12 @@ void CIMDisplayDoc::DoDisplayError(CString szFunction, CString szCause)
 // Display the cause of any unhandle warning exceptions.
 //-----------------------------------------------------------------------
 
-void CIMDisplayDoc::DoDisplayWarning(CString szFunction, CString szCause)
+void CIMDisplayDoc::DoDisplayWarning(const char * szFunction,const char * szCause)
 {
-  CString szMsg;
-  szMsg.Format(L"IMDisplayDoc function [%s] reported a warning.\n%s", szFunction, szCause);
-  AfxMessageBox(szMsg, MB_OK);
+  CString
+    szMsg;
+
+  szMsg.Format(L"IMDisplayDoc function [%s] reported a warning.\n%s",
+    szFunction,szCause);
+  AfxMessageBox(szMsg,MB_OK);
 }

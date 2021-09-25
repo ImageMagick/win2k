@@ -57,7 +57,7 @@ protected:
   void	RotateImage(double inDegrees);
   void	SetupUndo();
 
-  void	DoDisplayError(CString szFunction, CString szCause);
+  void	DoDisplayError(const char * szFunction,const char *szCause);
   void	DoDisplayError(CString szFunction, DWORD inError);
 
   CDC*	    mOffscreenDC;

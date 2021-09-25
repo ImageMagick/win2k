@@ -840,10 +840,7 @@ void CIMDisplayView::DoDisplayImage(Image &inImage, CDC* pDC)
 
       if (!hBitmap)
       {
-        CString message;
-        message.FormatMessage(L"Windows failed to allocate bitmap of size %1!d!x%2!d!!",
-          inImage.rows(), inImage.columns());
-        DoDisplayError("DoDisplayImage", message);
+        DoDisplayError("DoDisplayImage", "Windows failed to allocate bitmap");
         return;
       }
 
@@ -923,7 +920,7 @@ void CIMDisplayView::DoDisplayImage(Image &inImage, CDC* pDC)
 // Display the cause of any unhandle exceptions.
 //-----------------------------------------------------------------------
 
-void CIMDisplayView::DoDisplayError(CString szFunction, CString szCause)
+void CIMDisplayView::DoDisplayError(const char *szFunction,const char *szCause)
 {
   CString szMsg;
   szMsg.Format(L"IMDisplayView function [%s] encountered an error.\n%s",

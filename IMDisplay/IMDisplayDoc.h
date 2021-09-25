@@ -49,8 +49,8 @@ public:
 
 protected:
   // these are the custom functions and vars we've added!
-  void DoDisplayError(CString szFunction, CString szCause);
-  void DoDisplayWarning(CString szFunction, CString szCause);
+  void DoDisplayError(const char * szFunction,const char * szCause);
+  void DoDisplayWarning(const char * szFunction,const char * szCause);
 
   Image         m_pImage;
   CString       m_szFile;
