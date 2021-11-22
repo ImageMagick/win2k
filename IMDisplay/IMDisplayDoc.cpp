@@ -205,7 +205,7 @@ void CIMDisplayDoc::DoDisplayError(const char *szFunction,const char *szCause)
     szMsg;
 
   szMsg.Format(L"IMDisplayDoc function [%s] reported an error.\n%s",
-    szFunction,szCause);
+    static_cast<const CString>(szFunction),static_cast<const CString>(szCause));
   AfxMessageBox(szMsg,MB_OK);
 }
 
@@ -220,6 +220,6 @@ void CIMDisplayDoc::DoDisplayWarning(const char * szFunction,const char * szCaus
     szMsg;
 
   szMsg.Format(L"IMDisplayDoc function [%s] reported a warning.\n%s",
-    szFunction,szCause);
+    static_cast<const CString>(szFunction),static_cast<const CString>(szCause));
   AfxMessageBox(szMsg,MB_OK);
 }
